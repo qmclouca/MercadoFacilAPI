@@ -1,5 +1,5 @@
-﻿namespace Data
-{
+﻿namespace Domain
+{ 
     public interface IRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();
