@@ -4,12 +4,16 @@ namespace Domain
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbContext _context;
+        private readonly DbContext _context;       
         private readonly DbSet<T> _dbSet;
         public Repository(DbContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();
+        }
+
+        public Repository()
+        {
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
