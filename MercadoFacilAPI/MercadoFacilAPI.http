@@ -1,0 +1,6 @@
+@MercadoFacilAPI_HostAddress = http://localhost:5165
+
+GET {{MercadoFacilAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
