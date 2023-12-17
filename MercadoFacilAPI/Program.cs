@@ -1,11 +1,13 @@
-using Data;
+using Domain;
+using Domain.Interfaces;
+using Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IDomainService, DomainService>();
-builder.Services.AddTransient<IInfrastructureService, InfrastructureService>();
+builder.Services.AddScoped<IUserService, UserService>();
+//builder.Services.AddTransient<IInfrastructureService, InfrastructureService>();
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
 builder.Services.AddCors(options =>
