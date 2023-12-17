@@ -1,12 +1,18 @@
+using Data;
 using Domain;
 using Domain.Interfaces;
-using Domain.Services;
-using Microsoft.Extensions.DependencyInjection;
+using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<MercadoFacilDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+builder.Services.AddScoped<IMercadoFacilDbContext>(provider => (IMercadoFacilDbContext)provider.GetService<MercadoFacilDbContext>());
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 //builder.Services.AddTransient<IInfrastructureService, InfrastructureService>();
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
