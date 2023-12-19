@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace Domain
+namespace Domain.Services
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbContext _context;       
+        private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
         public Repository(DbContext context)
         {
