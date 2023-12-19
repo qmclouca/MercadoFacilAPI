@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace Domain
+namespace Domain.Services
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbContext _context;       
+        private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
         public Repository(DbContext context)
         {
@@ -21,7 +22,7 @@ namespace Domain
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
         }
@@ -38,7 +39,7 @@ namespace Domain
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(Guid id)
         {
             var entity = await GetByIdAsync(id);
             if (entity != null)

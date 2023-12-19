@@ -1,7 +1,5 @@
+using CrossCutting.DependencyInjection;
 using Data;
-using Domain;
-using Domain.Interfaces;
-using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

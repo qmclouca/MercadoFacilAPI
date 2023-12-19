@@ -1,7 +1,8 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Interfaces.Repositories;
 
-namespace Domain.Repositories
+namespace Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -17,7 +18,7 @@ namespace Domain.Repositories
            return _repository.AddAsync(entity);
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(Guid id)
         {
             return _repository.DeleteAsync(id);
         }
@@ -27,7 +28,7 @@ namespace Domain.Repositories
             return _repository.GetAllAsync();
         }
 
-        public Task<User> GetByIdAsync(int id)
+        public Task<User> GetByIdAsync(Guid id)
         {
             return _repository.GetByIdAsync(id);
         }
