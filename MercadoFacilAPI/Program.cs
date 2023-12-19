@@ -11,8 +11,7 @@ builder.Services.AddDbContext<MercadoFacilDbContext>(options =>
 });
 builder.Services.AddScoped<IMercadoFacilDbContext>(provider => (IMercadoFacilDbContext)provider.GetService<MercadoFacilDbContext>());
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddApplicationServices();
 //builder.Services.AddTransient<IInfrastructureService, InfrastructureService>();
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
