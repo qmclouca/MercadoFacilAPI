@@ -1,20 +1,18 @@
-﻿using Domain.Interfaces;
+﻿using Data;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Services
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbContext _context;
+        private readonly MercadoFacilDbContext _context;
         private readonly DbSet<T> _dbSet;
-        public Repository(DbContext context)
-        {
-            _context = context;
-            _dbSet = context.Set<T>();
-        }
 
-        public Repository()
+        public Repository(MercadoFacilDbContext context)
         {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _dbSet = context.Set<T>();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -24,7 +22,15 @@ namespace Domain.Services
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            return await _dbSet.FindAsync(id);
+            try
+            {
+                var result = await _dbSet.FindAsync(id);
+                return result;
+            }
+            catch (NullReferenceException e)
+            {                
+                return null;
+            }
         }
 
         public async Task AddAsync(T entity)

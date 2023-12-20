@@ -1,15 +1,16 @@
-﻿using Domain.Interfaces.Services;
+﻿using Domain.Entities;
+using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MercadoFacilAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class User: ControllerBase
+    public class UserController: ControllerBase
     {
         private readonly IUserService _userService;
 
-        public User(IUserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
@@ -23,14 +24,14 @@ namespace MercadoFacilAPI.Controllers
             return Ok(user);
         }
 
-        [HttpGet(Name = "GetUsers")]
-        public async Task<IActionResult> Get()
-        {
-            var users = await _userService.GetAllUsers();
-            if (users == null)
-                return NotFound();
-            return Ok(users);
-        }
+        //[HttpGet(Name = "GetAllUsers")]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    var users = await _userService.GetAllUsers();
+        //    if (users == null)
+        //        return NotFound();
+        //    return Ok(users);
+        //}
 
         [HttpPost(Name = "AddUser")]
         public async Task<IActionResult> Post([FromBody] User user)
@@ -38,7 +39,7 @@ namespace MercadoFacilAPI.Controllers
             if (user == null)
                 return BadRequest();
 
-            // await _userService.AddUser(user);
+            await _userService.AddUser(user);
             return Ok(user);
         }
 

@@ -15,7 +15,7 @@ namespace Domain.Services
 
         public UserService(IRepository<User> userRepository)
         {
-            _userRepository = userRepository;
+            _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         public async Task<bool> AddUser(User user)
