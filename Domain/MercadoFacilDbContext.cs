@@ -9,6 +9,7 @@ namespace Data
         {
         }
         public DbSet<User> Users { get; set; }
-
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<UserAddress> UserAddresses { get; set; }       
     }
 }

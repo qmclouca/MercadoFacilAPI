@@ -1,12 +1,8 @@
 using CrossCutting.DependencyInjection;
 using Data;
-using Data.Repositories;
 using Domain.Interfaces;
-using Domain.Interfaces.Repositories;
-using Domain.Interfaces.Services;
 using Domain.Services;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +10,7 @@ builder.Services.AddDbContext<MercadoFacilDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-//builder.Services.AddApplicationServices();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddApplicationServices();
 //builder.Services.AddTransient<IInfrastructureService, InfrastructureService>();
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
