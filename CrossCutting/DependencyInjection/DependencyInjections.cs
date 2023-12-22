@@ -10,6 +10,7 @@ namespace CrossCutting.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {            
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IAddressService, AddressService>();
             return services;
         }
     }

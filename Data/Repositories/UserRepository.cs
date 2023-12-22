@@ -6,36 +6,36 @@ namespace Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IRepository<User> _repository;       
+        private readonly IRepository<User> _userRepository;       
 
         public UserRepository(IRepository<User> repository)
         {
-            _repository = repository;
+            _userRepository = repository;
         }
 
         public Task AddAsync(User entity)
         {                     
-           return _repository.AddAsync(entity);
+           return _userRepository.AddAsync(entity);
         }
 
         public Task DeleteAsync(Guid id)
         {
-            return _repository.DeleteAsync(id);
-        }
+            return _userRepository.DeleteAsync(id);
+        }       
 
         public Task<IEnumerable<User>> GetAllAsync()
         {
-            return _repository.GetAllAsync();
+            return _userRepository.GetAllAsync();
         }
 
         public Task<User> GetByIdAsync(Guid id)
         {
-            return _repository.GetByIdAsync(id);
+            return _userRepository.GetByIdAsync(id);
         }
 
         public Task UpdateAsync(User entity)
         {
-            return _repository.UpdateAsync(entity);
+            return _userRepository.UpdateAsync(entity);
         }
     }
 }

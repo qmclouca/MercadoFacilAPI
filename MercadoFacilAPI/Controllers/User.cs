@@ -6,7 +6,7 @@ namespace MercadoFacilAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController: ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 
@@ -15,7 +15,7 @@ namespace MercadoFacilAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet(Name = "GetUser")]
+        [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> Get(Guid id)
         {
             var user = await _userService.GetUserById(id);
@@ -24,14 +24,14 @@ namespace MercadoFacilAPI.Controllers
             return Ok(user);
         }
 
-        //[HttpGet(Name = "GetAllUsers")]
-        //public async Task<IActionResult> GetAll()
-        //{
-        //    var users = await _userService.GetAllUsers();
-        //    if (users == null)
-        //        return NotFound();
-        //    return Ok(users);
-        //}
+        [HttpGet(Name = "GetAllUsers")]
+        public async Task<IActionResult> GetAll()
+        {
+            var users = await _userService.GetAllUsers();
+            if (users == null)
+                return NotFound();
+            return Ok(users);
+        }
 
         [HttpPost(Name = "AddUser")]
         public async Task<IActionResult> Post([FromBody] User user)
@@ -49,7 +49,7 @@ namespace MercadoFacilAPI.Controllers
             if (user == null)
                 return BadRequest();
 
-            // await _userService.UpdateUser(user);
+            await _userService.UpdateUser(user);
             return Ok(user);
         }
 
