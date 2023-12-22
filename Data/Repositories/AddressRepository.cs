@@ -4,38 +4,38 @@ using Domain.Interfaces.Repositories;
 
 namespace Data.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class AddressRepository : IAddressRepository
     {
-        private readonly IRepository<User> _userRepository;       
+        private readonly IRepository<Address> _AddressRepository;       
 
-        public UserRepository(IRepository<User> repository)
+        public AddressRepository(IRepository<Address> repository)
         {
-            _userRepository = repository;
+            _AddressRepository = repository;
         }
 
-        public Task AddAsync(User entity)
+        public Task AddAsync(Address entity)
         {                     
-           return _userRepository.AddAsync(entity);
+           return _AddressRepository.AddAsync(entity);
         }
 
         public Task DeleteAsync(Guid id)
         {
-            return _userRepository.DeleteAsync(id);
+            return _AddressRepository.DeleteAsync(id);
         }
 
-        public Task<IEnumerable<User>> GetAllAsync()
+        public Task<IEnumerable<Address>> GetAllAsync()
         {
-            return _userRepository.GetAllAsync();
+            return _AddressRepository.GetAllAsync();
         }
 
-        public Task<User> GetByIdAsync(Guid id)
+        public Task<Address> GetByIdAsync(Guid id)
         {
-            return _userRepository.GetByIdAsync(id);
+            return _AddressRepository.GetByIdAsync(id);
         }
 
-        public Task UpdateAsync(User entity)
+        public Task UpdateAsync(Address entity)
         {
-            return _userRepository.UpdateAsync(entity);
+            return _AddressRepository.UpdateAsync(entity);
         }
     }
 }
