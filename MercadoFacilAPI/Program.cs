@@ -15,7 +15,7 @@
 #pragma warning disable CS8600, CS8603
     builder.Services.AddScoped<IMercadoFacilDbContext>(provider => (IMercadoFacilDbContext)provider.GetService<MercadoFacilDbContext>());
 #pragma warning restore CS8600, CS8603
-    builder.Services.AddApplicationServices();
+    builder.Services.AddApplicationServices();    
     //builder.Services.AddTransient<IInfrastructureService, InfrastructureService>();
     builder.Services.AddControllers();
     builder.Services.AddHealthChecks();

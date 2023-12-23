@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTOs.User;
+using Domain.Entities;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,10 +35,15 @@ namespace MercadoFacilAPI.Controllers
         }
 
         [HttpPost(Name = "AddUser")]
-        public async Task<IActionResult> Post([FromBody] User user)
-        {
-            if (user == null)
+        public async Task<IActionResult> Post([FromBody] CreateUserDTO userDto)
+        {            
+
+            if (userDto == null)
                 return BadRequest();
+
+            User user = new User();
+
+
 
             await _userService.AddUser(user);
             return Ok(user);
