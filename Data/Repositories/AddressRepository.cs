@@ -23,6 +23,11 @@ namespace Data.Repositories
             return _AddressRepository.DeleteAsync(id);
         }
 
+        public Task DeleteAsync(Address entity)
+        {
+            return _AddressRepository.DeleteAsync(entity);            
+        }
+
         public Task<IEnumerable<Address>> GetAllAsync()
         {
             return _AddressRepository.GetAllAsync();
