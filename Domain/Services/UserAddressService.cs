@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Interfaces;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 
@@ -6,9 +7,9 @@ namespace Domain.Services
 {
     public class UserAddressService: IUserAddressService
     {
-        private readonly IUserAddressRepository _userAddressRepository;
+        private readonly IRepository<UserAddress> _userAddressRepository;
 
-        public UserAddressService(IUserAddressRepository userAddressRepository)
+        public UserAddressService(IRepository<UserAddress> userAddressRepository)
         {
             _userAddressRepository = userAddressRepository;
         }
