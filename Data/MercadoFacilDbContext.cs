@@ -1,9 +1,10 @@
 ﻿using Domain.Entities;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Domain
+namespace Data
 {
-    public class MercadoFacilDbContext: DbContext
+    public class MercadoFacilDbContext: DbContext, IMercadoFacilDbContext
     {
         public MercadoFacilDbContext(DbContextOptions<MercadoFacilDbContext> options) : base(options)
         {
