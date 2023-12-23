@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using AutoMapper;
+using Domain.DTOs.User;
+using Domain.Entities;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +11,12 @@ namespace MercadoFacilAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;        
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}", Name = "GetUser")]
@@ -34,10 +38,14 @@ namespace MercadoFacilAPI.Controllers
         }
 
         [HttpPost(Name = "AddUser")]
-        public async Task<IActionResult> Post([FromBody] User user)
-        {
-            if (user == null)
+        public async Task<IActionResult> Post([FromBody] CreateUserDTO userDto)
+        {            
+
+            if (userDto == null)
                 return BadRequest();
+
+            User user = new User();
+            _mapper.Map(userDto, user);
 
             await _userService.AddUser(user);
             return Ok(user);

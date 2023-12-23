@@ -11,7 +11,12 @@ namespace CrossCutting.DependencyInjection
         {            
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAddressService, AddressService>();
-            services.AddTransient<IUserAddressService, UserAddressService>();                        
+            services.AddTransient<IUserAddressService, UserAddressService>();
+
+            #region Automapper
+            //services.AddAutoMapper(typeof(UserProfile));
+            #endregion  Automapper
+
             return services;
         }
     }

@@ -1,8 +1,9 @@
-﻿using Data;
+﻿using Domain;
+using Data;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Domain.Services
+namespace Data.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
