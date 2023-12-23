@@ -21,7 +21,12 @@ namespace Data.Repositories
         public Task DeleteAsync(Guid id)
         {
             return _userRepository.DeleteAsync(id);
-        }       
+        }
+
+        public Task DeleteAsync(User entity)
+        {
+            return _userRepository.DeleteAsync(entity);           
+        }
 
         public Task<IEnumerable<User>> GetAllAsync()
         {

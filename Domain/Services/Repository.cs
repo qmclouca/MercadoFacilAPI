@@ -54,5 +54,12 @@ namespace Domain.Services
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task DeleteAsync(T entity)
+        {
+            if (entity == null) return;
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();           
+        }
     }
 }

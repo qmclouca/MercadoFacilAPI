@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data
+namespace Domain
 {
     public class MercadoFacilDbContext: DbContext
     {
@@ -10,6 +10,6 @@ namespace Data
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<UserAddress> UserAddresses { get; set; }       
+        public DbSet<UserAddress> UserAddresses { get; set; }
     }
 }
