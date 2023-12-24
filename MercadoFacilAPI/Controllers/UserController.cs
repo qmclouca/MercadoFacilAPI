@@ -11,11 +11,19 @@ namespace MercadoFacilAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IAddressService _addressService;
+        private readonly IUserAddressService _userAddressService;
         private readonly IMapper _mapper;        
 
-        public UserController(IUserService userService, IMapper mapper)
+        public UserController(
+            IUserService userService, 
+            IAddressService addressService, 
+            IUserAddressService userAddressService, 
+            IMapper mapper)
         {
             _userService = userService;
+            _addressService = addressService;
+            _userAddressService = userAddressService;
             _mapper = mapper;
         }
 
@@ -45,9 +53,45 @@ namespace MercadoFacilAPI.Controllers
                 return BadRequest();
 
             User user = new User();
+            List<Address> lstAddress = new List<Address>();
+            List<UserAddress> lstUserAddress = new List<UserAddress>();
+
             _mapper.Map(userDto, user);
 
+            foreach (var item in userDto.Addresses)
+            {
+                Address addressItem = new Address();
+                UserAddress userAddress = new UserAddress();
+
+                addressItem.Id = Guid.NewGuid();
+                addressItem.IsDeleted = false;
+                addressItem.Active = true;
+                addressItem.Number = item.Number;
+                addressItem.Street = item.Street;
+                addressItem.Complement = item.Complement;
+                addressItem.Neighborhood = item.Neighborhood;
+                addressItem.City = item.City;
+                addressItem.State = item.State;
+                addressItem.Country = item.Country;
+                addressItem.ZipCode = item.ZipCode;
+                addressItem.District = item.District;
+                userAddress.Id = Guid.NewGuid();
+                userAddress.UserId = user.Id;
+                userAddress.AddressId = addressItem.Id;
+                userAddress.Active = true;
+                userAddress.IsDeleted = false;
+                _addressService.AddAddress(addressItem);
+                _userAddressService.AddUserAddress(userAddress);
+            }
+
+            user.UserAddresses = lstUserAddress;            
+
             await _userService.AddUser(user);
+            foreach (var item in lstAddress)
+            {
+                await _addressService.AddAddress(item);
+            }            
+
             return Ok(user);
         }
 
