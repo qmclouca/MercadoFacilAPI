@@ -80,18 +80,20 @@ namespace MercadoFacilAPI.Controllers
                 userAddress.AddressId = addressItem.Id;
                 userAddress.Active = true;
                 userAddress.IsDeleted = false;
-                _addressService.AddAddress(addressItem);
-                _userAddressService.AddUserAddress(userAddress);
-            }
-
-            user.UserAddresses = lstUserAddress;            
+                lstAddress.Add(addressItem);
+                lstUserAddress.Add(userAddress);
+            }         
 
             await _userService.AddUser(user);
+                       
             foreach (var item in lstAddress)
             {
-                await _addressService.AddAddress(item);
-            }            
-
+                await _addressService.AddAddress(item);               
+            }
+            foreach (var item in lstUserAddress)
+            {
+                await _userAddressService.AddUserAddress(item); 
+            }
             return Ok(user);
         }
 

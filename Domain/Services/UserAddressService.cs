@@ -16,7 +16,14 @@ namespace Domain.Services
 
         public async Task<bool> AddUserAddress(UserAddress userAddress)
         {
-            await _userAddressRepository.AddAsync(userAddress);
+            try
+            {
+                await _userAddressRepository.AddAsync(userAddress);
+            }
+            catch (Exception)
+            {
+                return false;
+            }            
             return true;
         }
 
