@@ -113,8 +113,11 @@ namespace MercadoFacilAPI.Controllers
             var user = await _userService.GetUserById(id);
             if (user == null)
                 return NotFound();
-
-            // await _userService.DeleteUser(user);
+            bool addressListExclusionCheck = await _addressService.DeleteAddressByUserId(user.Id);
+            if (!addressListExclusionCheck)
+                return BadRequest("Um problema ocorreu ao excluir os endereços do usuário.");
+            await _userService.DeleteUser(user);
+            
             return Ok(user);
         }
     }
