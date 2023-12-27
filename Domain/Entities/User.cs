@@ -2,8 +2,7 @@
 {
     public class User : BaseEntity
     {
-        internal readonly object Addresses;
-
+        public List<Address>? Addresses {get; set;}
         public string? Name { get; set; }
         public string? Email { get; set; }
         public string? Password { get; set; }
