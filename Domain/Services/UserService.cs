@@ -40,17 +40,19 @@ namespace Domain.Services
         public async Task<User> GetUserById(Guid id)
         {
             User user = await _userRepository.GetByIdAsync(id);
-            IEnumerable<UserAddress> userAddresses = _userAddressRepository.GetAllAsync().Result.Where(ua => ua.UserId == id);                        
+            IEnumerable<UserAddress> userAddresses = await _userAddressRepository.GetAllAsync();
+            IEnumerable<UserAddress> userAddressesFiltered = userAddresses.Where(ua => ua.UserId == id);                        
             List<Address> addresses = new List<Address>();
             foreach (UserAddress userAddress in userAddresses)
             {
                 Address address = await _addressRepository.GetByIdAsync(userAddress.AddressId);
+                
                 addresses.Add(address);
-            } 
-            
-            user.Addresses = JsonSerializer.Serialize(addresses);
+            }
 
-            return await _userRepository.GetByIdAsync(id);
+            user.Addresses = addresses;
+
+            return user;
         }
 
         public async Task<User> UpdateUser(User user)
