@@ -57,32 +57,34 @@ namespace MercadoFacilAPI.Controllers
             List<UserAddress> lstUserAddress = new List<UserAddress>();
 
             _mapper.Map(userDto, user);
-
-            foreach (var item in userDto.Addresses)
+            if(userDto.Addresses != null)
             {
-                Address addressItem = new Address();
-                UserAddress userAddress = new UserAddress();
+                foreach (var item in userDto.Addresses)
+                {
+                    Address addressItem = new Address();
+                    UserAddress userAddress = new UserAddress();
 
-                addressItem.Id = Guid.NewGuid();
-                addressItem.IsDeleted = false;
-                addressItem.Active = true;
-                addressItem.Number = item.Number;
-                addressItem.Street = item.Street;
-                addressItem.Complement = item.Complement;
-                addressItem.Neighborhood = item.Neighborhood;
-                addressItem.City = item.City;
-                addressItem.State = item.State;
-                addressItem.Country = item.Country;
-                addressItem.ZipCode = item.ZipCode;
-                addressItem.District = item.District;
-                userAddress.Id = Guid.NewGuid();
-                userAddress.UserId = user.Id;
-                userAddress.AddressId = addressItem.Id;
-                userAddress.Active = true;
-                userAddress.IsDeleted = false;
-                lstAddress.Add(addressItem);
-                lstUserAddress.Add(userAddress);
-            }         
+                    addressItem.Id = Guid.NewGuid();
+                    addressItem.IsDeleted = false;
+                    addressItem.Active = true;
+                    addressItem.Number = item.Number;
+                    addressItem.Street = item.Street;
+                    addressItem.Complement = item.Complement;
+                    addressItem.Neighborhood = item.Neighborhood;
+                    addressItem.City = item.City;
+                    addressItem.State = item.State;
+                    addressItem.Country = item.Country;
+                    addressItem.ZipCode = item.ZipCode;
+                    addressItem.District = item.District;
+                    userAddress.Id = Guid.NewGuid();
+                    userAddress.UserId = user.Id;
+                    userAddress.AddressId = addressItem.Id;
+                    userAddress.Active = true;
+                    userAddress.IsDeleted = false;
+                    lstAddress.Add(addressItem);
+                    lstUserAddress.Add(userAddress);
+                }
+            }                     
 
             await _userService.AddUser(user);
                        
@@ -94,7 +96,10 @@ namespace MercadoFacilAPI.Controllers
             {
                 await _userAddressService.AddUserAddress(item); 
             }
-            return Ok(user);
+
+            _mapper.Map(user, userDto);
+
+            return Ok(userDto);
         }
 
         [HttpPut(Name = "UpdateUser")]
