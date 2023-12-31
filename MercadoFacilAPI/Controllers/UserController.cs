@@ -2,7 +2,9 @@
 using Domain.DTOs.User;
 using Domain.Entities;
 using Domain.Interfaces.Services;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
+using Domain.DTOs.Address;
 
 namespace MercadoFacilAPI.Controllers
 {
@@ -97,8 +99,31 @@ namespace MercadoFacilAPI.Controllers
                 await _userAddressService.AddUserAddress(item); 
             }
 
-            _mapper.Map(user, userDto);
+            userDto = new CreateUserDTO();
 
+            userDto.Name = user.Name;
+            userDto.Email = user.Email;
+            userDto.Password = user.Password;
+            userDto.Role = user.Role;
+            List<CreateAddressDTO> lstCreateAddressDTO = new List<CreateAddressDTO>();
+            if (lstAddress.Count > 0)
+            {
+                foreach (var item in lstAddress)
+                {
+                    CreateAddressDTO createAddressDTO = new CreateAddressDTO();
+                    createAddressDTO.Number = item.Number;
+                    createAddressDTO.Street = item.Street;
+                    createAddressDTO.Complement = item.Complement;
+                    createAddressDTO.Neighborhood = item.Neighborhood;
+                    createAddressDTO.City = item.City;
+                    createAddressDTO.State = item.State;
+                    createAddressDTO.Country = item.Country;
+                    createAddressDTO.ZipCode = item.ZipCode;
+                    createAddressDTO.District = item.District;
+                    lstCreateAddressDTO.Add(createAddressDTO);
+                }
+            }
+            userDto.Addresses = lstCreateAddressDTO;
             return Ok(userDto);
         }
 
