@@ -59,7 +59,14 @@ namespace Domain.Services
             {
                 foreach (Address address in lstAddresses)
                 {
-                    await _addressRepository.DeleteAsync(address.Id);
+                    try
+                    {
+                        await _addressRepository.DeleteAsync(address.Id);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }                    
                     await _userAddressRepository.DeleteAsync(address.Id);
                 }
             }
