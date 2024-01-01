@@ -40,9 +40,6 @@ namespace Domain.Services
         public async Task<User> GetUserById(Guid id)
         {
             User user = await _userRepository.GetByIdAsync(id);
-            
-            //61460d39-fcdf-49e9-b9f9-45b34c46be48
-
 
             IEnumerable<UserAddress> userAddresses = await _userAddressRepository.GetAllAsync();
             IEnumerable<UserAddress> userAddressesFiltered = userAddresses.Where(ua => ua.UserId == id);                        
@@ -53,7 +50,6 @@ namespace Domain.Services
                 
                 addresses.Add(address);
             }
-
             user.Addresses = addresses;
 
             return user;

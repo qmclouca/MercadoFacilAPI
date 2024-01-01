@@ -88,8 +88,12 @@ namespace MercadoFacilAPI.Controllers
             User user = new User();
             List<Address> lstAddress = new List<Address>();
             List<UserAddress> lstUserAddress = new List<UserAddress>();
+            
+            user.Email = createUserDTO.Email;
+            user.Name = createUserDTO.Name;
+            user.Password = createUserDTO.Password;
+            user.Role = createUserDTO.Role;
 
-            _mapper.Map(createUserDTO, user);
             if (createUserDTO.Addresses != null)
             {
                 foreach (var item in createUserDTO.Addresses)
@@ -116,6 +120,7 @@ namespace MercadoFacilAPI.Controllers
                     userAddress.IsDeleted = false;
                     lstAddress.Add(addressItem);
                     lstUserAddress.Add(userAddress);
+                    user.Addresses.Add(addressItem);
                 }
             }
             await SaveAddressList(lstAddress);

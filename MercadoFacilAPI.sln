@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34407.89
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MercadoFacilAPI", "MercadoFacilAPI\MercadoFacilAPI.csproj", "{F4DDC17A-72CE-4724-90C1-7F9B96D08D42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MercadoFacilAPI", "MercadoFacilAPI\MercadoFacilAPI.csproj", "{F4DDC17A-72CE-4724-90C1-7F9B96D08D42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{5AFCDECE-CB20-431F-99C6-B48270D800EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{5AFCDECE-CB20-431F-99C6-B48270D800EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossCutting", "CrossCutting\CrossCutting.csproj", "{615030CD-3AE3-4867-AAC5-C1B278D23A9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossCutting", "CrossCutting\CrossCutting.csproj", "{615030CD-3AE3-4867-AAC5-C1B278D23A9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{2AA96CF5-3206-4669-BCD7-1EDF3B3A30B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{2AA96CF5-3206-4669-BCD7-1EDF3B3A30B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{67691BCD-F1FF-4823-B914-ABAB971C2666}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{67691BCD-F1FF-4823-B914-ABAB971C2666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{D524319F-29F0-4DB9-AB3C-26B8CC4F3AEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{67691BCD-F1FF-4823-B914-ABAB971C2666}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67691BCD-F1FF-4823-B914-ABAB971C2666}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67691BCD-F1FF-4823-B914-ABAB971C2666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D524319F-29F0-4DB9-AB3C-26B8CC4F3AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D524319F-29F0-4DB9-AB3C-26B8CC4F3AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D524319F-29F0-4DB9-AB3C-26B8CC4F3AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D524319F-29F0-4DB9-AB3C-26B8CC4F3AEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
