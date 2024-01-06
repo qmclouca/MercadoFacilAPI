@@ -1,8 +1,10 @@
 using AutoMapper;
 using Domain.DTOs.User;
+using Domain.Entities;
 using Domain.Interfaces.Services;
 using MercadoFacilAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using UnitTests.Generators;
 
 namespace UnitTests
@@ -67,7 +69,7 @@ namespace UnitTests
             {
                 Name = "Usuário Teste",
                 Email = email,
-                Password = "Senha#1234",
+                Password = "ValidPass11!",
                 Role = "User"
             };
 
@@ -77,6 +79,47 @@ namespace UnitTests
             // Assert            
             var badRequestResult = result as BadRequestResult;
             Assert.Equal(400, badRequestResult.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("ValidPass11!", true)] // Válido: atende a todos os requisitos
+        [InlineData("invalidpassword", false)] // Inválido: sem número, sem caractere especial, sem maiúscula
+        [InlineData("INVALIDPASSWORD1", false)] // Inválido: sem caractere especial, sem minúscula
+        [InlineData("Invalid1", false)] // Inválido: sem caractere especial
+        [InlineData("Inv@lid", false)] // Inválido: sem número
+        [InlineData("Short1!", false)] // Inválido: menos de 12 caracteres
+        [InlineData("ThisPasswordIsWayTooLongEvenIfItHasNumbers1!", false)] // Inválido: mais de 40 caracteres
+        public async void Password_Validation_Test(string password, bool expectedIsValid)
+        {
+            // Arrange
+            var mockUserService = new Mock<IUserService>();
+            var mockAddressService = new Mock<IAddressService>();
+            var mockUserAddressService = new Mock<IUserAddressService>();
+            var mockMapper = new Mock<IMapper>();
+
+            var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+            
+            var userDto = new CreateUserDTO
+            {
+                Name = "Usuário Teste",
+                Email = "teste@exemplo.com",
+                Password = password,
+                Role = "User"
+            };
+
+            // Act
+            var result = await userController.Post(userDto);
+
+            // Assert
+            if (expectedIsValid)
+            {
+                Assert.IsType<CreatedAtActionResult>(result);
+            }
+            else
+            {
+                var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+                Assert.Equal(400, badRequestResult.StatusCode);
+            }
         }
     }
 }
