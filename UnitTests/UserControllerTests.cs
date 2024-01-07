@@ -34,7 +34,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Post_DeveRetornarBadRequest_QuandoUsuarioInvalido()
+        public async Task Post_DeveRetornarBadRequest_QuandoUsuarioInvalido()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -68,10 +68,25 @@ namespace UnitTests
             };
 
             // Act
-            var result = userController.Post(userDto);
+            var context = new ValidationContext(userDto, null, null);
+            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+
+            var isValid = Validator.TryValidateObject(userDto, context, results, true);
+
+            if (!isValid)
+            {
+                foreach (var validationResult in results)
+                {
+                    userController.ModelState.AddModelError(validationResult.MemberNames.First(), validationResult.ErrorMessage);
+                }
+            }
+
+            var result = await userController.Post(userDto);
+            var objectResult = result as ObjectResult;
 
             // Assert
-            Assert.IsType<BadRequestResult>(result.Result);
+            Assert.NotNull(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Theory]
@@ -199,9 +214,9 @@ namespace UnitTests
                 
                 var errorMessages = new List<string>();
                 var resultValue = result as BadRequestObjectResult;
-                if (resultValue == null) { 
-                    Assert.True(false, "resultValue is null");
-                }
+
+                Assert.NotNull(resultValue);
+                
                 var modelState = resultValue.Value as SerializableError;
 
                 foreach (var KeyValuePair in modelState)
