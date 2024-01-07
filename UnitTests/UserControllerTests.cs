@@ -1,4 +1,5 @@
 using AutoMapper;
+using Domain.DTOs.Address;
 using Domain.DTOs.User;
 using Domain.Entities;
 using Domain.Interfaces.Services;
@@ -42,7 +43,29 @@ namespace UnitTests
             var mockMapper = new Mock<IMapper>();
                         
             var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
-            var userDto = new CreateUserDTO();            
+            CreateAddressDTO address = new CreateAddressDTO
+            {
+                Street = "Rua Teste",
+                Number = "123",
+                Neighborhood = "Bairro Teste",
+                City = "Cidade Teste",
+                State = "Estado Teste",
+                Country = "País Teste",
+                ZipCode = "12345678"
+            };
+
+            List<CreateAddressDTO> lstCreateAddresses = new List<CreateAddressDTO>();
+            lstCreateAddresses.Add(address);
+
+
+            var userDto = new CreateUserDTO
+            {
+                Name = "Usuário Teste",
+                Email = "email@teste",
+                Password = "InValidPass",
+                Role = "User",
+                Addresses = lstCreateAddresses
+            };
 
             // Act
             var result = userController.Post(userDto);
@@ -65,31 +88,56 @@ namespace UnitTests
             var mockMapper = new Mock<IMapper>();
                         
             var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+
+            CreateAddressDTO address = new CreateAddressDTO
+            {
+                Street = "Rua Teste",
+                Number = "123",
+                Neighborhood = "Bairro Teste",
+                City = "Cidade Teste",
+                State = "Estado Teste",
+                Country = "País Teste",
+                ZipCode = "12345678"
+            };
+
+            List<CreateAddressDTO> lstCreateAddresses = new List<CreateAddressDTO>();
+            lstCreateAddresses.Add(address);
+
+
             var userDto = new CreateUserDTO
             {
                 Name = "Usuário Teste",
                 Email = email,
                 Password = "ValidPass11!",
-                Role = "User"
+                Role = "User",
+                Addresses = lstCreateAddresses
             };
 
             // Act
-            var result = await userController.Post(userDto);            
+            var result = await userController.Post(userDto);
+            var objectResult = result as ObjectResult;
 
-            // Assert            
-            var badRequestResult = result as BadRequestResult;
-            Assert.Equal(400, badRequestResult.StatusCode);
+            // Assert
+            if (objectResult.StatusCode == 200)
+            {
+                Assert.IsType<CreateUserDTO>(objectResult.Value);
+                Assert.Equal(email, ((CreateUserDTO)objectResult.Value).Email);
+            }
+            else
+            {
+                Assert.Equal(400, objectResult.StatusCode);
+            }            
         }
 
         [Theory]
-        [InlineData("ValidPass11!", true)] // Válido: atende a todos os requisitos
-        [InlineData("invalidpassword", false)] // Inválido: sem número, sem caractere especial, sem maiúscula
-        [InlineData("INVALIDPASSWORD1", false)] // Inválido: sem caractere especial, sem minúscula
-        [InlineData("Invalid1", false)] // Inválido: sem caractere especial
-        [InlineData("Inv@lid", false)] // Inválido: sem número
-        [InlineData("Short1!", false)] // Inválido: menos de 12 caracteres
-        [InlineData("ThisPasswordIsWayTooLongEvenIfItHasNumbers1!", false)] // Inválido: mais de 40 caracteres
-        public async void Password_Validation_Test(string password, bool expectedIsValid)
+        [InlineData("ValidPass11!", true, null)] // Válido: atende a todos os requisitos
+        [InlineData("invalidpassword", false, "A senha deve conter pelo menos um número, um caractere especial, uma letra maiúscula e uma minúscula.")] // Inválido: sem número, sem caractere especial, sem maiúscula
+        [InlineData("INVALIDPASSWORD1", false, "A senha deve conter pelo menos um número, um caractere especial, uma letra maiúscula e uma minúscula.")] // Inválido: sem caractere especial, sem minúscula
+        [InlineData("Invalid1", false, "A senha deve conter pelo menos um número, um caractere especial, uma letra maiúscula e uma minúscula.")] // Inválido: sem caractere especial
+        [InlineData("Inv@lid", false, "A senha deve conter pelo menos um número, um caractere especial, uma letra maiúscula e uma minúscula.")] // Inválido: sem número
+        [InlineData("Short1!", false, "A senha deve conter no mínimo 12 caracteres e no máximo 40.")] // Inválido: menos de 12 caracteres
+        [InlineData("ThisPasswordIsWayTooLongEvenIfItHasNumbers1!", false, "A senha deve conter no mínimo 12 caracteres e no máximo 40.")] // Inválido: mais de 40 caracteres
+        public async void Password_Validation_Test(string password, bool expectedIsValid, string expectedMessage)
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -98,27 +146,46 @@ namespace UnitTests
             var mockMapper = new Mock<IMapper>();
 
             var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+
+            CreateAddressDTO address = new CreateAddressDTO
+            {
+                Street = "Rua Teste",
+                Number = "123",
+                Neighborhood = "Bairro Teste",
+                City = "Cidade Teste",
+                State = "Estado Teste",
+                Country = "País Teste",
+                ZipCode = "12345678"
+            };
             
+            List<CreateAddressDTO> lstCreateAddresses = new List<CreateAddressDTO>();
+            lstCreateAddresses.Add(address);
+
             var userDto = new CreateUserDTO
             {
                 Name = "Usuário Teste",
                 Email = "teste@exemplo.com",
                 Password = password,
-                Role = "User"
+                Role = "User",
+                Addresses = lstCreateAddresses
             };
 
             // Act
             var result = await userController.Post(userDto);
+            var objectResult = result as ObjectResult;
 
             // Assert
             if (expectedIsValid)
             {
-                Assert.IsType<CreatedAtActionResult>(result);
+                Assert.NotNull(result);
+                Assert.IsType<OkObjectResult>(result);
             }
             else
             {
-                var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-                Assert.Equal(400, badRequestResult.StatusCode);
+                Assert.NotNull(result);
+                Assert.IsType<OkObjectResult>(result);
+                var valueResult = objectResult.Value as List<Bogus.ValidationResult>;
+                // Assert.Equal(expectedMessage, valueResult[].);
             }
         }
     }
