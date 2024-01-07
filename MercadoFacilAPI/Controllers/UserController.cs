@@ -48,10 +48,9 @@ namespace MercadoFacilAPI.Controllers
 
         [HttpPost(Name = "AddUser")]
         public async Task<IActionResult> Post([FromBody] CreateUserDTO userDto)
-        {   
-           
-            if (!IsUserDtoValid(userDto))
-                return BadRequest();
+        {              
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
             User user = await ConvertCreateUserDTOToUser(userDto);
 
             await _userService.AddUser(user);
@@ -189,34 +188,34 @@ namespace MercadoFacilAPI.Controllers
             }
         }
 
-        private bool IsUserDtoValid(CreateUserDTO userDto)
-        {
-            if (userDto == null)
-            {
-                return false;
-            }
-            if (string.IsNullOrEmpty(userDto.Name) ||
-                string.IsNullOrEmpty(userDto.Email) ||
-                string.IsNullOrEmpty(userDto.Password) ||
-                string.IsNullOrEmpty(userDto.Role))
-            {
-                return false;
-            }            
-            if (userDto.Addresses == null || !userDto.Addresses.Any())
-            {
-                return false;
-            }                        
-            foreach (var address in userDto.Addresses)
-            {
-                if (string.IsNullOrEmpty(address.Street) ||
-                    string.IsNullOrEmpty(address.City) ||
-                    string.IsNullOrEmpty(address.ZipCode))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        //private bool IsUserDtoValid(CreateUserDTO userDto)
+        //{
+        //    if (userDto == null)
+        //    {
+        //        return false;
+        //    }
+        //    if (string.IsNullOrEmpty(userDto.Name) ||
+        //        string.IsNullOrEmpty(userDto.Email) ||
+        //        string.IsNullOrEmpty(userDto.Password) ||
+        //        string.IsNullOrEmpty(userDto.Role))
+        //    {
+        //        return false;
+        //    }            
+        //    if (userDto.Addresses == null || !userDto.Addresses.Any())
+        //    {
+        //        return false;
+        //    }                        
+        //    foreach (var address in userDto.Addresses)
+        //    {
+        //        if (string.IsNullOrEmpty(address.Street) ||
+        //            string.IsNullOrEmpty(address.City) ||
+        //            string.IsNullOrEmpty(address.ZipCode))
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
         #endregion
     }
 }
