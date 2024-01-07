@@ -54,9 +54,7 @@ namespace UnitTests
                 ZipCode = "12345678"
             };
 
-            List<CreateAddressDTO> lstCreateAddresses = new List<CreateAddressDTO>();
-            lstCreateAddresses.Add(address);
-
+            List<CreateAddressDTO> lstCreateAddresses = [address];
 
             var userDto = new CreateUserDTO
             {
@@ -115,9 +113,7 @@ namespace UnitTests
                 ZipCode = "12345678"
             };
 
-            List<CreateAddressDTO> lstCreateAddresses = new List<CreateAddressDTO>();
-            lstCreateAddresses.Add(address);
-
+            List<CreateAddressDTO> lstCreateAddresses = [address];
 
             var userDto = new CreateUserDTO
             {
