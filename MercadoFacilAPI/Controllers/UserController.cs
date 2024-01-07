@@ -55,7 +55,8 @@ namespace MercadoFacilAPI.Controllers
             User user = await ConvertCreateUserDTOToUser(userDto);
 
             await _userService.AddUser(user);
-            return Ok(ConvertUserToCreateUserDTO(user));
+            var toReturn = Ok(ConvertUserToCreateUserDTO(user));
+            return toReturn;
         }
 
         [HttpPut(Name = "UpdateUser")]
