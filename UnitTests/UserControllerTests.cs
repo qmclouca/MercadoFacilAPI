@@ -257,5 +257,61 @@ namespace UnitTests
             // Assert
             Assert.IsType<NotFoundResult>(result);
         }
+
+        [Fact]
+        public async Task Delete_ReturnsBadRequest_WhenAddressDeletionFails()
+        {
+            // Arrange
+            var existingUserId = Guid.NewGuid();
+            var mockUserService = new Mock<IUserService>();
+            var mockAddressService = new Mock<IAddressService>();
+            var mockUserAddressService = new Mock<IUserAddressService>();
+            var mockMapper = new Mock<IMapper>();
+
+            var user = new User { Id = existingUserId };
+
+            mockUserService.Setup(service => service.GetUserById(existingUserId)).ReturnsAsync(user);
+            mockAddressService.Setup(service => service.DeleteAddressByUserId(existingUserId)).ReturnsAsync(false);
+
+            var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+
+            // Act
+            var result = await userController.Delete(existingUserId);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Um problema ocorreu ao excluir os endereços do usuário.", badRequestResult.Value);
+        }
+
+        [Fact]
+        public async Task Delete_ReturnsOk_WhenUserIsSuccessfullyDeleted()
+        {
+            // Arrange
+            var existingUserId = Guid.NewGuid();
+            var mockUserService = new Mock<IUserService>();
+            var mockAddressService = new Mock<IAddressService>();
+            var mockUserAddressService = new Mock<IUserAddressService>();
+            var mockMapper = new Mock<IMapper>();
+
+            var user = new User { Id = existingUserId };
+
+            mockUserService.Setup(s => s.GetUserById(existingUserId))
+                .ReturnsAsync(user);
+            mockAddressService.Setup(s => s.DeleteAddressByUserId(existingUserId))
+                .ReturnsAsync(true);          
+            mockUserService.Setup(s => s.DeleteUser(It.IsAny<User>()))
+                .ReturnsAsync(true);
+            mockUserService.Setup(s => s.DeleteUser(It.IsAny<User>()))
+                .ReturnsAsync(false);
+
+            var controller = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+
+            // Act
+            var result = await controller.Delete(existingUserId);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(user, okResult.Value);
+        }
     }
 }
