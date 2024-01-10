@@ -235,5 +235,27 @@ namespace UnitTests
                 Assert.True(containsEitherMessage, "Error messages should contain either message one or message two.");
             }
         }
+
+        [Fact]
+        public async Task Delete_ReturnsNotFound_WhenUserDoesNotExist()
+        {
+            // Arrange
+            var nonExistentUserId = Guid.NewGuid();
+
+            var mockUserService = new Mock<IUserService>();
+            var mockAddressService = new Mock<IAddressService>();
+            var mockUserAddressService = new Mock<IUserAddressService>();
+            var mockMapper = new Mock<IMapper>();
+
+            _ = mockUserService.Setup(service => service.GetUserById(nonExistentUserId)).ReturnsAsync((User)null);
+
+            var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+
+            // Act
+            var result = await userController.Delete(nonExistentUserId);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
     }
 }
