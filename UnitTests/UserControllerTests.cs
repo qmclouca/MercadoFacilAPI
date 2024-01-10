@@ -301,8 +301,6 @@ namespace UnitTests
                 .ReturnsAsync(true);          
             mockUserService.Setup(s => s.DeleteUser(It.IsAny<User>()))
                 .ReturnsAsync(true);
-            mockUserService.Setup(s => s.DeleteUser(It.IsAny<User>()))
-                .ReturnsAsync(false);
 
             var controller = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
 
