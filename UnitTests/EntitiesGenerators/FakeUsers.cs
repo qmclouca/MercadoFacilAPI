@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs.Address;
 using Domain.DTOs.User;
+using Domain.Entities;
 
 namespace UnitTests.Generators
 {
@@ -15,6 +16,11 @@ namespace UnitTests.Generators
                 .RuleFor(u => u.Role, f => f.PickRandomParam("User", "Admin"))
                 .RuleFor(u => u.Addresses, f => addressGenerator.Generate(3));
             return userGenerator.Generate();
+        }
+
+        internal IEnumerable<User> CreateMany(int v)
+        {
+            throw new NotImplementedException();
         }
 
         private Faker<CreateAddressDTO> CreateAddressGenerator()
