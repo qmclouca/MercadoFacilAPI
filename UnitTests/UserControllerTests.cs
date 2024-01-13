@@ -5,6 +5,7 @@ using Domain.Entities;
 using Domain.Interfaces.Services;
 using MercadoFacilAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 using System.ComponentModel.DataAnnotations;
 using UnitTests.Generators;
 
@@ -310,6 +311,56 @@ namespace UnitTests
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(user, okResult.Value);
+        }
+
+        [Fact]
+        public async Task GetAll_Returns_All_Users()
+        {
+            // Arrange
+            var mockUserService = new Mock<IUserService>();
+            var mockAddressService = new Mock<IAddressService>();
+            var mockUserAddressService = new Mock<IUserAddressService>();
+            var mockMapper = new Mock<IMapper>();
+
+
+            var userFaker = new FakeUsers();
+            var users = userFaker.CreateMany(10);            
+
+            mockUserService.Setup(service => service.GetAllUsers()).ReturnsAsync(users);
+
+            var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+
+            // Act
+            var result = await userController.GetAll();
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnedUsers = Assert.IsType<List<User>>(okResult.Value);
+            Assert.Equal(10, returnedUsers.Count);
+        }
+
+        [Fact]
+        public async Task Get_Returns_User_By_Id()
+        {
+            // Arrange
+            var mockUserService = new Mock<IUserService>();
+            var mockAddressService = new Mock<IAddressService>();
+            var mockUserAddressService = new Mock<IUserAddressService>();
+            var mockMapper = new Mock<IMapper>();
+
+            var userFaker = new FakeUsers();
+            var user = userFaker.CreateFakeUser();
+
+            mockUserService.Setup(service => service.GetUserById(user.Id)).ReturnsAsync(user);
+
+            var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+
+            // Act
+            var result = await userController.Get(user.Id);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result.Result);
+            Assert.IsType<User>(((OkObjectResult)result.Result).Value);
         }
     }
 }
