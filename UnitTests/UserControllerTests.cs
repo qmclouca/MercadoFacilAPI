@@ -24,7 +24,7 @@ namespace UnitTests
             var userFaker = new FakeUsers();
             
             var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
-            var userDto = userFaker.CreateFakeUser();
+            var userDto = userFaker.CreateFakeUserDTO();
 
             // Act
             var result = userController.Post(userDto);
@@ -343,24 +343,32 @@ namespace UnitTests
         public async Task Get_Returns_User_By_Id()
         {
             // Arrange
+            var userId = Guid.NewGuid(); // Create a new user ID
             var mockUserService = new Mock<IUserService>();
             var mockAddressService = new Mock<IAddressService>();
             var mockUserAddressService = new Mock<IUserAddressService>();
             var mockMapper = new Mock<IMapper>();
 
             var userFaker = new FakeUsers();
-            var user = userFaker.CreateFakeUser();
+            var fakeUser = userFaker.CreateFakeUser(); // Use your method to create a fake user
+            fakeUser.Id = userId; // Ensure the user has the ID we're going to look for
 
-            mockUserService.Setup(service => service.GetUserById(user.Id)).ReturnsAsync(user);
+            mockUserService.Setup(s => s.GetUserById(userId))
+                .ReturnsAsync(fakeUser); // Setup the mock service to return our user
 
-            var userController = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+            var controller = new UserController(
+                mockUserService.Object,
+                mockAddressService.Object,
+                mockUserAddressService.Object,
+                mockMapper.Object);
 
             // Act
-            var result = await userController.Get(user.Id);
+            var actionResult = await controller.Get(userId);
 
             // Assert
-            Assert.IsType<OkObjectResult>(result.Result);
-            Assert.IsType<User>(((OkObjectResult)result.Result).Value);
+            var result = Assert.IsType<OkObjectResult>(actionResult); // Check if the result is OK
+            var returnedUser = Assert.IsType<User>(result.Value); // Check if the result contains a User
+            Assert.Equal(userId, returnedUser.Id); // Check if the returned user is the one we requested
         }
     }
 }
