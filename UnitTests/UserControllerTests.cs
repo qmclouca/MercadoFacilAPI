@@ -370,5 +370,102 @@ namespace UnitTests
             var returnedUser = Assert.IsType<User>(result.Value); // Check if the result contains a User
             Assert.Equal(userId, returnedUser.Id); // Check if the returned user is the one we requested
         }
+
+        [Fact]
+        public async Task Update_ReturnsNoContent_WhenUpdateIsSuccessful()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var existingUser = new User
+            {
+                Id = userId,
+                Name = "Original Name",
+                Email = "original@example.com",
+                Password = "OriginalPass1!",
+                Role = "User"
+            };
+
+            var updateUserDto = new CreateUserDTO
+            {
+                Name = "Updated Name",
+                Email = "updated@example.com",
+                Password = "UpdatedPass1!",
+                Role = "Admin"
+            };
+
+            var updatedUser = new User
+            {
+                Id = userId,
+                Name = updateUserDto.Name,
+                Email = updateUserDto.Email,
+                Password = updateUserDto.Password,
+                Role = updateUserDto.Role
+            };
+
+            var mockUserService = new Mock<IUserService>();
+            var mockAddressService = new Mock<IAddressService>();
+            var mockUserAddressService = new Mock<IUserAddressService>();
+            var mockMapper = new Mock<IMapper>();
+
+            mockUserService.Setup(s => s.GetUserById(userId)).ReturnsAsync(existingUser);
+            mockUserService.Setup(s => s.UpdateUser(It.IsAny<User>())).ReturnsAsync(updatedUser);
+            mockMapper.Setup(m => m.Map<User>(It.IsAny<CreateUserDTO>())).Returns(updatedUser);
+
+            var controller = new UserController(mockUserService.Object, mockAddressService.Object, mockUserAddressService.Object, mockMapper.Object);
+
+            // Act
+            var result = await controller.Put(updatedUser);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var returnedUser = Assert.IsType<User>(okResult.Value);
+            Assert.Equal(updatedUser.Name, returnedUser.Name);
+            Assert.Equal(updatedUser.Email, returnedUser.Email);
+            mockUserService.Verify(s => s.UpdateUser(It.IsAny<User>()), Times.Once);
+        }
+
+
+        [Fact]
+        public async Task Update_ReturnsNotFound_WhenUserDoesNotExist()
+        {
+            // Arrange
+            var userId = Guid.NewGuid();
+            var updateUserDto = new CreateUserDTO
+            {
+                Name = "Updated Name",
+                Email = "updated@example.com",
+                Password = "UpdatedPass1!",
+                Role = "Admin"
+            };
+
+            var updatedUser = new User
+            {
+                Id = userId,
+                Name = updateUserDto.Name,
+                Email = updateUserDto.Email,
+                Password = updateUserDto.Password,
+                Role = updateUserDto.Role
+            };
+            var mockUserService = new Mock<IUserService>();
+            var mockAddressService = new Mock<IAddressService>();
+            var mockUserAddressService = new Mock<IUserAddressService>();
+            var mockMapper = new Mock<IMapper>();
+
+            mockUserService.Setup(s => s.GetUserById(userId)).ReturnsAsync((User)null);
+                        
+            var controller = new UserController(
+                mockUserService.Object,
+                mockAddressService.Object,
+                mockUserAddressService.Object,
+                mockMapper.Object
+            );
+
+            // Act
+            var result = await controller.Put(updatedUser);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+            mockUserService.Verify(s => s.UpdateUser(It.IsAny<User>()), Times.Never);
+        }
     }
 }
