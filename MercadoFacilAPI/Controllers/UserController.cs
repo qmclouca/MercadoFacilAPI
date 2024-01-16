@@ -55,9 +55,15 @@ namespace MercadoFacilAPI.Controllers
 
             UserConversionResultDTO userConversionResultDTO = ConvertCreateUserDTOToUser(userDto);
 
-            await _userService.AddUser(user);
-            var toReturn = Ok(ConvertUserToCreateUserDTO(user));
-            return toReturn;
+            if(userConversionResultDTO.user != null)
+            {
+                await _userService.AddUser(userConversionResultDTO.user);
+                await SaveAddressList(userConversionResultDTO.Addresses);
+                await SaveUserAddressList(userConversionResultDTO.UserAddresses);
+                var toReturn = Ok(ConvertUserToCreateUserDTO(userConversionResultDTO.user));
+                return toReturn;
+            }
+            return BadRequest("Um problema ocorreu ao salvar o usuário.");
         }
 
         [HttpPut(Name = "UpdateUser")]
@@ -96,6 +102,8 @@ namespace MercadoFacilAPI.Controllers
             List<Address> lstAddress = new List<Address>();
             List<UserAddress> lstUserAddress = new List<UserAddress>();
             
+            user.Id = Guid.NewGuid();
+            user.CreatedAt = DateTime.UtcNow;
             user.Email = createUserDTO.Email;
             user.Name = createUserDTO.Name;
             user.Password = createUserDTO.Password;
