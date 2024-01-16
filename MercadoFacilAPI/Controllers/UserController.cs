@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.DTOs;
 using Domain.DTOs.Address;
 using Domain.DTOs.User;
 using Domain.Entities;
@@ -51,7 +52,8 @@ namespace MercadoFacilAPI.Controllers
         {              
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            User user = await ConvertCreateUserDTOToUser(userDto);
+
+            UserConversionResultDTO userConversionResultDTO = ConvertCreateUserDTOToUser(userDto);
 
             await _userService.AddUser(user);
             var toReturn = Ok(ConvertUserToCreateUserDTO(user));
@@ -87,8 +89,9 @@ namespace MercadoFacilAPI.Controllers
         }
 
         #region métodos auxiliares
-        private async Task<User> ConvertCreateUserDTOToUser(CreateUserDTO createUserDTO)
+        private UserConversionResultDTO ConvertCreateUserDTOToUser(CreateUserDTO createUserDTO)
         {
+            UserConversionResultDTO userConversionResultDTO = new UserConversionResultDTO();
             User user = new User();
             List<Address> lstAddress = new List<Address>();
             List<UserAddress> lstUserAddress = new List<UserAddress>();
@@ -127,9 +130,10 @@ namespace MercadoFacilAPI.Controllers
                     user.Addresses.Add(addressItem);
                 }
             }
-            await SaveAddressList(lstAddress);
-            await SaveUserAddressList(lstUserAddress);
-            return user;
+            userConversionResultDTO.user = user;
+            userConversionResultDTO.Addresses = lstAddress;
+            userConversionResultDTO.UserAddresses = lstUserAddress;
+            return userConversionResultDTO;
         }
 
         private CreateUserDTO ConvertUserToCreateUserDTO(User user)
