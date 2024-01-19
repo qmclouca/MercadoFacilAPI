@@ -1,25 +1,26 @@
-﻿using Infrastructure.Interfaces;
+﻿using Domain.Entities.Brapi;
+using Infrastructure.Interfaces;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 
 namespace Infrastructure.Services
 {
-    public class BrapiAPI: IBrapiService
+    public class BrapiService: IBrapiService
     {
         private readonly string _brapiAPIKey;
         private readonly string _brapiBaseURL;
         private HttpClient _client = new HttpClient();
 
-        public BrapiAPI(IOptions<ExternalAPIConfigurations> configurations)
+        public BrapiService(IOptions<ExternalAPIConfigurations> configurations)
         {
             _brapiAPIKey = configurations.Value.BRAPI_API_KEY;
             _brapiBaseURL = configurations.Value.BRAPI_URL;
         }
 
-        public async Task<dynamic> FetchCompanyData(string symbol)
+        public async Task<dynamic> GetCompanyQuote(string symbol)
         {
-            var url = $"{_brapiBaseURL}{symbol}?token={_brapiAPIKey}";
+            var url = $"{_brapiBaseURL}quote/{symbol}?token={_brapiAPIKey}";
             return await FetchUrl(url);
         }
 
@@ -28,9 +29,8 @@ namespace Infrastructure.Services
             var response = await _client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            string responseContent = await response.Content.ReadAsStringAsync();
-            
-            return JsonConvert.DeserializeObject(responseContent);
+            string responseContent = await response.Content.ReadAsStringAsync();            
+            return JsonConvert.DeserializeObject<BrapiQuote>(responseContent);
         }
     }
 }

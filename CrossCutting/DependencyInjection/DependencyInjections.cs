@@ -27,7 +27,7 @@ namespace CrossCutting.DependencyInjection
             #endregion Automapper
 
             #region API Configurations
-            services.AddTransient<IBrapiService, BrapiAPI>();
+            services.AddTransient<IBrapiService, BrapiService>();
             #endregion API Configurations
             return services;
         }

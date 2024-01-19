@@ -19,7 +19,7 @@ namespace MercadoFacilAPI.Controllers
         {
             try
             {
-                var result = await _brapiService.FetchCompanyData(symbol);
+                var result = await _brapiService.GetCompanyQuote(symbol);
                 return Ok(result);
             }
             catch (Exception ex)
