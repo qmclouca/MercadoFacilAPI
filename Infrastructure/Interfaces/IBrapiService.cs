@@ -8,6 +8,6 @@ namespace Infrastructure.Interfaces
 {
     public interface IBrapiService
     {
-        public Task<dynamic> FetchCompanyData(string symbol);
+        public Task<dynamic> GetCompanyQuote(string symbol);
     }
 }
