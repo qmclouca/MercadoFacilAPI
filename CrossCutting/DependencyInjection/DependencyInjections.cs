@@ -5,14 +5,15 @@ using Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Infrastructure.Interfaces;
+using Infrastructure.Services;
 
 namespace CrossCutting.DependencyInjection
 {
     public static class DependencyInjections
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfigurationSection configurationSection)
-        {
-            IConfigurationSection _configurationSection = configurationSection;
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {            
             #region Business Entities
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAddressService, AddressService>();
@@ -26,7 +27,7 @@ namespace CrossCutting.DependencyInjection
             #endregion Automapper
 
             #region API Configurations
-            services.Configure<ExternalAPIConfigurations>(_configurationSection.GetSection("ExternalAPIConfigurations"));
+            services.AddTransient<IBrapiService, BrapiAPI>();
             #endregion API Configurations
             return services;
         }

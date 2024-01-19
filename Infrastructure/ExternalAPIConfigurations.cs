@@ -1,13 +1,6 @@
-﻿using Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Infrastructure
+﻿namespace Infrastructure
 {
-    public class ExternalAPIConfigurations: IExternalAPIConfigurations
+    public class ExternalAPIConfigurations
     {
         public string BRAPI_API_KEY { get; set; }
         public string API_KEY { get; set; }

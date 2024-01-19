@@ -2,7 +2,8 @@
     using Data;
     using Data.Repositories;
     using Domain.Interfaces;
-    using Microsoft.EntityFrameworkCore;
+using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@
     builder.Services.AddScoped<IMercadoFacilDbContext>(provider => (IMercadoFacilDbContext)provider.GetService<MercadoFacilDbContext>());
 #pragma warning restore CS8600, CS8603
     builder.Services.AddApplicationServices();    
+    builder.Services.Configure<ExternalAPIConfigurations>(builder.Configuration.GetSection("ExternalAPIConfigurations"));
     //builder.Services.AddTransient<IInfrastructureService, InfrastructureService>();
     builder.Services.AddControllers();
     builder.Services.AddHealthChecks();

@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Interfaces
 {
-    public class IExternalAPIConfigurations
+    public interface IExternalAPIConfigurations
     {
         public string BRAPI_API_KEY { get; set; }
         public string API_KEY { get; set; }
