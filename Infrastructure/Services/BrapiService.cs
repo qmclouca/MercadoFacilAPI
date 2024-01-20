@@ -24,6 +24,12 @@ namespace Infrastructure.Services
             return await FetchUrl(url);
         }
 
+        public async Task<dynamic> GetCompanyQuoteHistory(string symbol, int months)
+        {
+            var url = $"{_brapiBaseURL}quote/{symbol}?interval={months}mo&token={_brapiAPIKey}";
+            return await FetchUrl(url);
+        }
+
         private async Task<dynamic> FetchUrl(string url)
         {
             var response = await _client.GetAsync(url);

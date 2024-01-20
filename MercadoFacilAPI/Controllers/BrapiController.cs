@@ -27,5 +27,19 @@ namespace MercadoFacilAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet("/GetDataCompany/{symbol}/{months}")]
+        public async Task<IActionResult> Get(string symbol, int months)
+        {
+            try
+            {
+                var result = await _brapiService.GetCompanyQuoteHistory(symbol, months);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }
