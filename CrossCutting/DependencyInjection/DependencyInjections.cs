@@ -17,7 +17,8 @@ namespace CrossCutting.DependencyInjection
             #region Business Entities
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAddressService, AddressService>();
-            services.AddTransient<IUserAddressService, UserAddressService>();
+            services.AddTransient<IUserAddressService, UserAddressService>(); 
+            services.AddTransient<IShareService, ShareService>();
             #endregion Business Entities
 
             #region Automapper

@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(MercadoFacilDbContext))]
-    partial class MercadoFacilDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240120031910_share")]
+    partial class share
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,126 +78,6 @@ namespace Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Addresses");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Share", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("AverageDailyVolume10Day")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("AverageDailyVolume3Month")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Currency")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("EarningsPerShare")
-                        .HasColumnType("float");
-
-                    b.Property<double>("FiftyTwoWeekHigh")
-                        .HasColumnType("float");
-
-                    b.Property<double>("FiftyTwoWeekHighChange")
-                        .HasColumnType("float");
-
-                    b.Property<double>("FiftyTwoWeekHighChangePercent")
-                        .HasColumnType("float");
-
-                    b.Property<double>("FiftyTwoWeekLow")
-                        .HasColumnType("float");
-
-                    b.Property<double>("FiftyTwoWeekLowChange")
-                        .HasColumnType("float");
-
-                    b.Property<double>("FiftyTwoWeekLowChangePercent")
-                        .HasColumnType("float");
-
-                    b.Property<string>("FiftyTwoWeekRange")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Logourl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LongName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("MarketCap")
-                        .HasColumnType("bigint");
-
-                    b.Property<double>("PriceEarnings")
-                        .HasColumnType("float");
-
-                    b.Property<double>("RegularMarketChange")
-                        .HasColumnType("float");
-
-                    b.Property<double>("RegularMarketChangePercent")
-                        .HasColumnType("float");
-
-                    b.Property<double>("RegularMarketDayHigh")
-                        .HasColumnType("float");
-
-                    b.Property<double>("RegularMarketDayLow")
-                        .HasColumnType("float");
-
-                    b.Property<string>("RegularMarketDayRange")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("RegularMarketOpen")
-                        .HasColumnType("float");
-
-                    b.Property<double>("RegularMarketPreviousClose")
-                        .HasColumnType("float");
-
-                    b.Property<double>("RegularMarketPrice")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("RegularMarketTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("RegularMarketVolume")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Symbol")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("TwoHundredDayAverage")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TwoHundredDayAverageChange")
-                        .HasColumnType("float");
-
-                    b.Property<double>("TwoHundredDayAverageChangePercent")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Shares");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
