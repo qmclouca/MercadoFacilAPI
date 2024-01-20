@@ -9,6 +9,7 @@ namespace Domain.Interfaces
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         DbSet<User> Users { get; set; }
         DbSet<Address> Addresses { get; set; }
-        DbSet<UserAddress> UserAddresses { get; set; }        
+        DbSet<UserAddress> UserAddresses { get; set; } 
+        DbSet<Share> Shares { get; set; }
     }
 }
