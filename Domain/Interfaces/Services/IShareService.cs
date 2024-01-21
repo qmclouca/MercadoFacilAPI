@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Entities;
 
 namespace Domain.Interfaces.Services
 {
     public interface IShareService
     {
+        Task AddAsync(Share share);       
+        Task<Share> GetByIdAsync(Guid id);       
+        Task<IEnumerable<Share>> GetAllAsync();
     }
 }
