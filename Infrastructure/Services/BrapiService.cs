@@ -1,21 +1,26 @@
-﻿using Domain.Entities.Brapi;
+﻿using Domain.Entities;
+using Domain.Entities.Brapi;
+using Domain.Interfaces.Services;
 using Infrastructure.Interfaces;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 namespace Infrastructure.Services
 {
     public class BrapiService: IBrapiService
     {
+        private readonly IShareService _shareService;
         private readonly string _brapiAPIKey;
         private readonly string _brapiBaseURL;
         private HttpClient _client = new HttpClient();
 
-        public BrapiService(IOptions<ExternalAPIConfigurations> configurations)
+        public BrapiService(IOptions<ExternalAPIConfigurations> configurations, IShareService shareService)
         {
             _brapiAPIKey = configurations.Value.BRAPI_API_KEY;
             _brapiBaseURL = configurations.Value.BRAPI_URL;
+            _shareService = shareService;
         }
 
         public async Task<dynamic> GetCompanyQuote(string symbol)
@@ -35,8 +40,24 @@ namespace Infrastructure.Services
             var response = await _client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            string responseContent = await response.Content.ReadAsStringAsync();            
-            return JsonConvert.DeserializeObject<BrapiQuote>(responseContent);
+            string responseContent = await response.Content.ReadAsStringAsync();
+            Share share = ConvertJsonToShare(responseContent);
+            await _shareService.AddAsync(share);
+            return share;
+        }
+
+        public Share ConvertJsonToShare(string jsonResponse)
+        {
+            var jsonObject = JObject.Parse(jsonResponse);
+
+            var shareData = jsonObject["results"]?.First;
+
+            if (shareData == null)
+            {
+                throw new InvalidOperationException("Invalid JSON response");
+            }
+            Share share = shareData.ToObject<Share>(); 
+            return share;
         }
     }
 }

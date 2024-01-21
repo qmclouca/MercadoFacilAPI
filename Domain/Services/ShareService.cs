@@ -24,6 +24,7 @@ namespace Domain.Services
         {
             return _shareRepository.DeleteAsync(id);
         }
+
         public Task<IEnumerable<Share>> GetAllAsync()
         {
             return _shareRepository.GetAllAsync();
