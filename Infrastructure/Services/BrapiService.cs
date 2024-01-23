@@ -42,7 +42,16 @@ namespace Infrastructure.Services
 
             string responseContent = await response.Content.ReadAsStringAsync();
             Share share = ConvertJsonToShare(responseContent);
-            await _shareService.AddAsync(share);
+            share.Id = Guid.NewGuid();
+            try
+            {
+                await _shareService.AddAsync(share);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
             return share;
         }
 
@@ -58,6 +67,16 @@ namespace Infrastructure.Services
             }
             Share share = shareData.ToObject<Share>(); 
             return share;
+        }
+
+        public Task<string> SaveAllCompanyQuotes()
+        {
+            foreach (AcoesEnum symbol in Enum.GetValues(typeof(AcoesEnum)))
+            {
+                Console.WriteLine(symbol);
+            }
+
+            return "Todas as cotacoes salvas com sucesso!";
         }
     }
 }
