@@ -1,0 +1,41 @@
+﻿namespace Infrastructure.Enums
+{
+    public enum IndexesEnum
+    {
+        //incluir ^ no inicio
+        AORD,
+        AXJO,
+        BFX,
+        BSESN,
+        BUK100P,
+        BVSP,
+        CASE30,
+        DJI,
+        FCHI,
+        FTSE,
+        GDAXI,
+        GSPC,
+        GSPTSE,
+        HSI,
+        IPSA,
+        IXIC,
+        JKSE,
+        //JN0U.JO,
+        KLSE,
+        KS11,
+        MERV,
+        MXX,
+        N100,
+        N225,
+        NYA,
+        NZ50,
+        RUT,
+        STI,
+        STOXX50E,
+        //TA125.TA,
+        TWII,
+        VIX,
+        XAX,
+        //FIX.SA
+    }
+}
