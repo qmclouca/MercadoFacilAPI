@@ -37,12 +37,13 @@ namespace Infrastructure.Services
 
         private async Task<dynamic> FetchUrl(string url)
         {
+
             var response = await _client.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
             string responseContent = await response.Content.ReadAsStringAsync();
             Share share = ConvertJsonToShare(responseContent);
-            share.Id = Guid.NewGuid();
+            
             try
             {
                 await _shareService.AddAsync(share);
@@ -69,14 +70,13 @@ namespace Infrastructure.Services
             return share;
         }
 
-        public Task<string> SaveAllCompanyQuotes()
+        public async Task<Task> SaveAllCompanyQuotes()
         {
             foreach (AcoesEnum symbol in Enum.GetValues(typeof(AcoesEnum)))
             {
-                Console.WriteLine(symbol);
+               _ = await GetCompanyQuoteHistory(symbol.ToString(), 3);
             }
-
-            return "Todas as cotacoes salvas com sucesso!";
+            return Task.CompletedTask;
         }
     }
 }
