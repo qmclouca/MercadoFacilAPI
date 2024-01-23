@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Entities.Brapi;
 using Domain.Interfaces.Services;
+using Infrastructure.Enums;
 using Infrastructure.Interfaces;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
