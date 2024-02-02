@@ -14,8 +14,8 @@ namespace MercadoFacilAPI.Controllers
             _shareService = shareService;
         }
 
-        [HttpGet(Name = "GetAllShares")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet(Name = "GetPaginatedShares")]
+        public async Task<IActionResult> GetPaginatedShares()
         {
             var shares = await _shareService.GetAllAsync();
             if (shares == null)

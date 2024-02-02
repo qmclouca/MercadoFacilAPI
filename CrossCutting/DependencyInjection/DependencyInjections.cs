@@ -29,6 +29,7 @@ namespace CrossCutting.DependencyInjection
 
             #region API Configurations
             services.AddTransient<IBrapiService, BrapiService>();
+            services.AddTransient<IPaginationService, PaginationService>();
             #endregion API Configurations
             return services;
         }
