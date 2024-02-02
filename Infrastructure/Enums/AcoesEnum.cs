@@ -1480,7 +1480,6 @@
         BIVE39,
         WPLZ11,
         I1QY34,
-        _5GTK11,
         AGRI11,
         HAGA3F,
         RSUL4F,
