@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Domain.DTOs.Address;
-using Domain.Entities;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 

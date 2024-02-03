@@ -1,6 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Data
 {

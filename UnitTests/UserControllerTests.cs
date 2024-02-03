@@ -5,7 +5,6 @@ using Domain.Entities;
 using Domain.Interfaces.Services;
 using MercadoFacilAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 using System.ComponentModel.DataAnnotations;
 using UnitTests.Generators;
 

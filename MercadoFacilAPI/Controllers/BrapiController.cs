@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MercadoFacilAPI.Controllers

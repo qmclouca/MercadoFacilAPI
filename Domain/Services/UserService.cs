@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Interfaces.Services;
-using System.Text.Json;
 
 namespace Domain.Services
 {
