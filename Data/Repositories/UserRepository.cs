@@ -1,4 +1,8 @@
-﻿namespace Data.Repositories
+﻿using Domain.Entities;
+using Domain.Interfaces;
+using Domain.Interfaces.Repositories;
+
+namespace Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
