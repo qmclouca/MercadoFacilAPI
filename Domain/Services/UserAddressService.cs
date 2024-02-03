@@ -1,6 +1,5 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
-using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 
 namespace Domain.Services

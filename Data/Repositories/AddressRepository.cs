@@ -1,6 +1,6 @@
-﻿using Domain.Entities;
+﻿using Data.Migrations;
+using Domain.Entities;
 using Domain.Interfaces;
-using Domain.Interfaces.Repositories;
 
 namespace Data.Repositories
 {

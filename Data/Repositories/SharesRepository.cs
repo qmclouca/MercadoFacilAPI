@@ -1,8 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Interfaces;
-using Domain.Interfaces.Repositories;
-
-namespace Data.Repositories
+﻿namespace Data.Repositories
 {
     public class SharesRepository: IShareRepository
     {
