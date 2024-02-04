@@ -4,6 +4,7 @@ using Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Interfaces;
 using Infrastructure.Services;
+using Infrastructure.Utils;
 
 namespace CrossCutting.DependencyInjection
 {
@@ -26,7 +27,7 @@ namespace CrossCutting.DependencyInjection
 
             #region API Configurations
             services.AddTransient<IBrapiService, BrapiService>();
-            //services.AddTransient<IPaginationService, PaginationService>();
+            services.AddTransient<IPaginationService, PaginationService>();
             #endregion API Configurations
             return services;
         }
