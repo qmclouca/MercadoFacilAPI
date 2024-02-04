@@ -7,5 +7,6 @@ namespace Domain.Interfaces.Services
         Task AddAsync(Share share);       
         Task<Share> GetByIdAsync(Guid id);       
         Task<IEnumerable<Share>> GetAllAsync();
+        Task<IQueryable<Share>> GetAllSharesQuery();
     }
 }

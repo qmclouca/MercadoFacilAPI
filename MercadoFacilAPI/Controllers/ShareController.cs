@@ -1,4 +1,6 @@
-﻿using Domain.Interfaces.Services;
+﻿using Domain.Entities;
+using Domain.Interfaces.Services;
+using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MercadoFacilAPI.Controllers
@@ -8,19 +10,24 @@ namespace MercadoFacilAPI.Controllers
     public class ShareController: ControllerBase
     {
         private readonly IShareService _shareService;
+        private readonly IPaginationService _paginationService;
 
-        public ShareController(IShareService shareService)
+        public ShareController(IShareService shareService, IPaginationService paginationService)
         {
             _shareService = shareService;
+            _paginationService = paginationService;
         }
 
-        [HttpGet(Name = "GetPaginatedShares")]
-        public async Task<IActionResult> GetPaginatedShares()
+        [HttpGet("{page}, {resultsByPage}", Name = "GetPaginatedShares")]
+        public async Task<IActionResult> GetPaginatedShares(int page, int resultsByPage)
         {
-            var shares = await _shareService.GetAllAsync();
-            if (shares == null)
+            var sharesEnumerable = await _shareService.GetAllSharesQuery();
+            if (sharesEnumerable == null)
                 return NotFound();
-            return Ok(shares);
+
+            var sharesQuery = sharesEnumerable.AsQueryable(); 
+            var paginatedShares = await _paginationService.PaginateAsync(sharesQuery, page, resultsByPage);
+            return Ok(paginatedShares);
         }
 
         [HttpGet("{id}", Name = "GetShareById")]

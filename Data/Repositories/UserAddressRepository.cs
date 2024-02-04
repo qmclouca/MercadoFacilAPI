@@ -33,6 +33,11 @@ namespace Data.Repositories
             return _userAddressRepository.GetAllAsync(); 
         }
 
+        public Task<IQueryable<UserAddress>> GetAllQueryAsync()
+        {
+            return _userAddressRepository.GetAllQueryAsync();
+        }
+
         public Task<UserAddress> GetByIdAsync(Guid id)
         {
            return _userAddressRepository.GetByIdAsync(id);

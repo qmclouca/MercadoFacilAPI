@@ -37,5 +37,10 @@ namespace Domain.Services
         {
             return _shareRepository.UpdateAsync(entity);
         }
+
+        public async Task<IQueryable<Share>> GetAllSharesQuery()
+        {
+            return await _shareRepository.GetAllQueryAsync();
+        }
     }
 }

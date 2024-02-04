@@ -42,5 +42,15 @@ namespace Data.Repositories
         {
             return _shareRepository.UpdateAsync(entity);
         }
+
+        public async Task<IQueryable<Share>> GetAllSharesQuery()
+        {
+           return await _shareRepository.GetAllQueryAsync();
+        }
+
+        public Task<IQueryable<Share>> GetAllQueryAsync()
+        {
+            return _shareRepository.GetAllQueryAsync();
+        }
     }
 }

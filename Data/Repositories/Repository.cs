@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Entities;
+using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories
@@ -59,6 +60,11 @@ namespace Data.Repositories
             if (entity == null) return;
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();           
+        }
+
+        public Task<IQueryable<T>> GetAllQueryAsync()
+        {
+            return Task.FromResult<IQueryable<T>>(_dbSet);
         }
     }
 }

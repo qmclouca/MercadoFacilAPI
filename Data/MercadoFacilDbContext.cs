@@ -13,5 +13,10 @@ namespace Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<UserAddress> UserAddresses { get; set; }
         public DbSet<Share> Shares { get; set; }
+
+        public DbSet<T> Queryable<T>() where T : class
+        {
+            return Set<T>();
+        }
     }
 }

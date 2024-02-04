@@ -33,6 +33,11 @@ namespace Data.Repositories
             return _AddressRepository.GetAllAsync();
         }
 
+        public Task<IQueryable<Address>> GetAllQueryAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Address> GetByIdAsync(Guid id)
         {
             return _AddressRepository.GetByIdAsync(id);
