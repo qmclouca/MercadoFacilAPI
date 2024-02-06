@@ -1,7 +1,9 @@
 ﻿using Domain.Entities;
+using Domain.Entities.ReturnObjects;
 using Domain.Interfaces.Services;
 using Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MercadoFacilAPI.Controllers
 {
@@ -18,7 +20,7 @@ namespace MercadoFacilAPI.Controllers
             _paginationService = paginationService;
         }
 
-        [HttpGet("{page}, {resultsByPage}", Name = "GetPaginatedShares")]
+        [HttpGet("{page}, {resultsByPage}", Name = "GetPaginatedShares")]        
         public async Task<IActionResult> GetPaginatedShares(int page, int resultsByPage)
         {
             var sharesEnumerable = await _shareService.GetAllSharesQuery();
@@ -30,22 +32,35 @@ namespace MercadoFacilAPI.Controllers
             return Ok(paginatedShares);
         }
 
-        [HttpGet("{id}", Name = "GetShareById")]
-        public async Task<IActionResult> GetShareById(Guid id)
+        [HttpGet("{symbol}", Name = "GetShareBySymbol")]        
+        public async Task<IActionResult> GetShareBySymbol(string symbol)
         {
-            var share = await _shareService.GetByIdAsync(id);
-            if (share == null)
+            var sharesEnumerable = await _shareService.GetAllSharesQuery();
+            if (sharesEnumerable == null)
                 return NotFound();
+
+            var share = sharesEnumerable.LastOrDefault(s => s.Symbol!.ToUpper().Equals(symbol.ToUpper()));
             return Ok(share);
         }
+        [HttpGet(Name = "GetListOfEarningsByShare")]        
+        public async Task<IActionResult> GetListOfEarningsByShare()
+        {      
+            var earningsQuery = _shareService
+                .GetAllSharesQuery().Result                
+                .GroupBy(share => share!.Symbol!.ToUpper())
+                .Select(group => new EarningsByShareSymbol
+                {
+                    symbol = group.Key,
+                    companyName = group.OrderByDescending(s => s.CreatedAt).FirstOrDefault()!.LongName,
+                    earningsPerShare = group.OrderByDescending(s => s.CreatedAt).FirstOrDefault()!.EarningsPerShare
+                })
+                .OrderByDescending(e => e.earningsPerShare);
 
-        //[HttpGet("{symbol}", Name = "GetShareBySymbol")]
-        //public async Task<IActionResult> GetShareBySymbol(string symbol)
-        //{
-        //    var share = await _shareService.GetBySymbol(symbol);
-        //    if (share == null)
-        //        return NotFound();
-        //    return Ok(share);
-        //}
+            
+            if (!earningsQuery.Any())
+                return NotFound();
+
+            return Ok(earningsQuery);
+        }
     }
 }
