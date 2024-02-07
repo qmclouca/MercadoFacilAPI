@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 
 namespace Domain.Services
@@ -58,6 +59,11 @@ namespace Domain.Services
         {
             await _userRepository.UpdateAsync(user);
             return await GetUserById(user.Id);            
+        }
+
+        public async Task<IQueryable<User>> GetAllUsersQuery()
+        {
+            return await _userRepository.GetAllQueryAsync();
         }
     }
 }

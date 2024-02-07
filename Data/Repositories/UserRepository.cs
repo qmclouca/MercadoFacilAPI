@@ -47,5 +47,10 @@ namespace Data.Repositories
         {
             return _userRepository.UpdateAsync(entity);
         }
+
+        public Task<User> GetByEmailAsync(string email)
+        {
+            return _userRepository.GetByEmailAsync(email);
+        }
     }
 }

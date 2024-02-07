@@ -9,5 +9,6 @@ namespace Domain.Interfaces.Services
         Task<bool> DeleteUser(User user);
         Task<User> GetUserById(Guid id);
         Task<IEnumerable<User>> GetAllUsers();
+        Task<IQueryable<User>> GetAllUsersQuery();
     }
 }
