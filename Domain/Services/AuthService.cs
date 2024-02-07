@@ -18,7 +18,7 @@ namespace Domain.Services
         }
         public async Task<string> Authenticate(string email, string password)
         {
-            var user = await _userRepository.GetAllQueryAsync(u => u.Email == email);
+            User user = await _userRepository.GetByEmailAsync(u => u.Email == email);
 
             // Verifique se o usuário existe e se a senha está correta
             // Supondo que você esteja usando um hash de senha e uma função para verificar isso
