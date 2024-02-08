@@ -38,6 +38,16 @@ namespace Data.Repositories
             return _userAddressRepository.GetAllQueryAsync();
         }
 
+        public Task<UserAddress> GetByEmailAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserAddress> GetByEmailAsync(Func<UserAddress, bool> value)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<UserAddress> GetByIdAsync(Guid id)
         {
            return _userAddressRepository.GetByIdAsync(id);
