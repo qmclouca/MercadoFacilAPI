@@ -12,6 +12,6 @@ namespace Domain.Interfaces
         Task DeleteAsync(T entity);
         Task<IQueryable<T>> GetAllQueryAsync();
         Task<T> GetByEmailAsync(string email);
-        Task GetByEmailAsync(Func<T, bool> value);
+        Task<T> GetByEmailAsync(Func<T, bool> value);
     }
 }

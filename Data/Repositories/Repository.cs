@@ -66,5 +66,15 @@ namespace Data.Repositories
         {
             return Task.FromResult<IQueryable<T>>(_dbSet);
         }
+
+        public Task<T> GetByEmailAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> GetByEmailAsync(Func<T, bool> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

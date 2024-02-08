@@ -52,5 +52,10 @@ namespace Data.Repositories
         {
             return _userRepository.GetByEmailAsync(email);
         }
+
+        public Task<User> GetByEmailAsync(Func<User, bool> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -20,7 +20,14 @@ namespace Domain.Services
 
         public async Task<bool> AddUser(User user)
         {
-            await _userRepository.AddAsync(user);
+            User toPostUser = new User
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Password = BCrypt.Net.BCrypt.HashPassword(user.Password),
+                Role = user.Role
+            };
+            await _userRepository.AddAsync(toPostUser);
             return true;            
         }
 

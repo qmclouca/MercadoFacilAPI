@@ -52,5 +52,15 @@ namespace Data.Repositories
         {
             return _shareRepository.GetAllQueryAsync();
         }
+
+        public Task<Share> GetByEmailAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Share> GetByEmailAsync(Func<Share, bool> value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
