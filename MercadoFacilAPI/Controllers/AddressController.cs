@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Domain.DTOs.Address;
 using Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MercadoFacilAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class AddressController : ControllerBase

@@ -4,10 +4,12 @@ using Domain.DTOs.Address;
 using Domain.DTOs.User;
 using Domain.Entities;
 using Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MercadoFacilAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -46,7 +48,7 @@ namespace MercadoFacilAPI.Controllers
                 return NotFound();
             return Ok(users);
         }
-
+        [AllowAnonymous]
         [HttpPost(Name = "AddUser")]
         public async Task<IActionResult> Post([FromBody] CreateUserDTO userDto)
         {              

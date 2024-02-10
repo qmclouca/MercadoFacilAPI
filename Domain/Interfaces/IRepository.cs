@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using System.Linq.Expressions;
 
 namespace Domain.Interfaces
 {
@@ -12,6 +13,6 @@ namespace Domain.Interfaces
         Task DeleteAsync(T entity);
         Task<IQueryable<T>> GetAllQueryAsync();
         Task<T> GetByEmailAsync(string email);
-        Task<T> GetByEmailAsync(Func<T, bool> value);
+        Task<T> GetByEmailAsync(Expression<Func<T, bool>> value);
     }
 }

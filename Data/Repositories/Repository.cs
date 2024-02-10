@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Data.Repositories
 {
@@ -72,9 +73,9 @@ namespace Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<T> GetByEmailAsync(Func<T, bool> value)
+        public async Task<T> GetByEmailAsync(Expression<Func<T, bool>> value)
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().FirstOrDefaultAsync(value);
         }
     }
 }
