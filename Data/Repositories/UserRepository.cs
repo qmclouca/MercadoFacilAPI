@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Interfaces.Repositories;
+using System.Linq.Expressions;
 
 namespace Data.Repositories
 {
@@ -53,7 +54,7 @@ namespace Data.Repositories
             return _userRepository.GetByEmailAsync(email);
         }
 
-        public Task<User> GetByEmailAsync(Func<User, bool> value)
+        public Task<User> GetByEmailAsync(Expression<Func<User, bool>> value)
         {
             throw new NotImplementedException();
         }

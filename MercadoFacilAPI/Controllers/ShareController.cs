@@ -1,12 +1,12 @@
-﻿using Domain.Entities;
-using Domain.Entities.ReturnObjects;
+﻿using Domain.Entities.ReturnObjects;
 using Domain.Interfaces.Services;
 using Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace MercadoFacilAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ShareController: ControllerBase

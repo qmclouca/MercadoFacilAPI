@@ -14,9 +14,10 @@ namespace Domain.Services
         private readonly IRepository<User> _userRepository;
         private readonly IConfiguration _configuration;
 
-        public AuthService(IRepository<User> userRepository)
+        public AuthService(IRepository<User> userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
+            _configuration = configuration;
         }
         public async Task<string?> Authenticate(string email, string password)
         {
