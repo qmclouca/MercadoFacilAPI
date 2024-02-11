@@ -28,8 +28,12 @@ namespace Domain.Services
                 return null;
             }
 
+            if (user.Active == false || user.IsDeleted)
+            {
+                return null;
+            }
             // Se válido, gere o token JWT
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenHandler = new JwtSecurityTokenHandler();            
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -37,7 +41,7 @@ namespace Domain.Services
                 {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role.ToUpper() ?? "User".ToUpper())
+                new Claim(ClaimTypes.Role, user.Role ?? "USER")
             }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
