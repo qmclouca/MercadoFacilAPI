@@ -2,6 +2,7 @@ using CrossCutting.DependencyInjection;
 using Data;
 using Data.Repositories;
 using Domain.Interfaces;
+using Domain.Interfaces.Services;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -44,9 +45,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
-            ValidateIssuer = true,
+            ValidateIssuer = false,
             ValidIssuer = configuration["Jwt:Issuer"],
-            ValidateAudience = true,
+            ValidateAudience = false,
             ValidAudience = configuration["Jwt:Audience"],
             ClockSkew = TimeSpan.Zero
         };
