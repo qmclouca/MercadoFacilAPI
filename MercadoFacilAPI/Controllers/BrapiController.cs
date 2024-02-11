@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MercadoFacilAPI.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class BrapiController : ControllerBase
@@ -43,6 +43,7 @@ namespace MercadoFacilAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "USER")]
         [HttpGet("/SaveAllCompanyQuotes")]
         public async Task<IActionResult> Get()
         {
