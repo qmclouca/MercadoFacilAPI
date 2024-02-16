@@ -48,6 +48,7 @@ namespace Domain.Services
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
+            
             return tokenHandler.WriteToken(token);
         }
         private bool VerifyPasswordHash(string password, string storedHash)
