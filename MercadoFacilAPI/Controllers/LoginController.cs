@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace MercadoFacilAPI.Controllers
 {
@@ -22,9 +23,11 @@ namespace MercadoFacilAPI.Controllers
 
             if (string.IsNullOrEmpty(token))
             {
+                DateTime dateTime = DateTime.UtcNow;
+                Log.Information($"Usuário: {login} tentou acessar com credenciais erradas em {dateTime}.");
                 return Unauthorized();
             }
-
+            Log.Information($"Usuário: {login} acessou com sucesso");
             return Ok(new { Token = token });
         }
     }
