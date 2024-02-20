@@ -21,7 +21,12 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
     .WriteTo.MSSqlServer(
         connectionString: context.Configuration.GetConnectionString("DefaultConnection"),
-        sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs" }));
+        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information,
+        sinkOptions: new MSSqlServerSinkOptions 
+        { 
+            TableName = "Logs",
+            AutoCreateSqlTable = true
+        }));
 
 var configuration = builder.Configuration;
 
