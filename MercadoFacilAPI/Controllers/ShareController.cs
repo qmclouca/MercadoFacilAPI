@@ -39,7 +39,7 @@ namespace MercadoFacilAPI.Controllers
             if (sharesEnumerable == null)
                 return NotFound();
 
-            var share = sharesEnumerable.LastOrDefault(s => s.Symbol!.ToUpper().Equals(symbol.ToUpper()));
+            var share = sharesEnumerable.OrderBy(s => s.RegularMarketTime).Where(s => s.Symbol!.ToUpper().Equals(symbol.ToUpper())).LastOrDefault();
             return Ok(share);
         }
         [HttpGet(Name = "GetListOfEarningsByShare")]        
