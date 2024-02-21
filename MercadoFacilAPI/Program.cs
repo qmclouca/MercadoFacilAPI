@@ -29,10 +29,9 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
         }));
 
 var configuration = builder.Configuration;
-
 builder.Services.AddDbContext<MercadoFacilDbContext>(options =>
     options.UseSqlServer
-        (builder.Configuration.GetConnectionString("DefaultConnection")
+        (configuration.GetConnectionString("DefaultConnection")
         , b => b.MigrationsAssembly("../Data")));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -43,7 +42,9 @@ builder.Services.AddApplicationServices();
 builder.Services.Configure<ExternalAPIConfigurations>(builder.Configuration.GetSection("ExternalAPIConfigurations"));
 //builder.Services.AddTransient<IInfrastructureService, InfrastructureService>();
 builder.Services.AddControllers();
-builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<MercadoFacilDbContext>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
