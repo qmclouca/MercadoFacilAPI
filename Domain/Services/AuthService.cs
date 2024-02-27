@@ -28,7 +28,7 @@ namespace Domain.Services
                 return null;
             }
 
-            if (user.Active == false || user.IsDeleted)
+            if (user.Active != false || user.IsDeleted)
             {
                 return null;
             }
