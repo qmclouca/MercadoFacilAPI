@@ -43,7 +43,7 @@ namespace MercadoFacilAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "USER")]
+       
         [HttpGet("/SaveAllCompanyQuotes")]
         public async Task<IActionResult> Get()
         {
