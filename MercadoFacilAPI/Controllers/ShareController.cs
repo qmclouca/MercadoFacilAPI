@@ -8,6 +8,7 @@ namespace MercadoFacilAPI.Controllers
 {
     [Authorize]
     [ApiController]
+    [AllowAnonymous]
     [Route("[controller]")]
     public class ShareController: ControllerBase
     {
