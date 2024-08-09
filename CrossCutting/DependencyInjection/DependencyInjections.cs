@@ -13,6 +13,7 @@ namespace CrossCutting.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {            
             #region Business Entities
+            services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IAddressService, AddressService>();
             services.AddTransient<IUserAddressService, UserAddressService>(); 
