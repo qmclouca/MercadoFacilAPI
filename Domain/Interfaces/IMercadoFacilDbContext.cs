@@ -11,5 +11,6 @@ namespace Domain.Interfaces
         DbSet<Address> Addresses { get; set; }
         DbSet<UserAddress> UserAddresses { get; set; } 
         DbSet<Share> Shares { get; set; }
+        DbSet<Product> Products { get; set; }
     }
 }

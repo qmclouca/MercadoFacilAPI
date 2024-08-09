@@ -1,8 +1,8 @@
 ﻿namespace Domain.Entities
 {
     public class Share: BaseEntity
-    {       
-        public string? Symbol { get; set; }       
+    {
+        public string? Symbol { get; set; }
         public string? Currency { get; set; }        
         public double? TwoHundredDayAverage { get; set; }       
         public double? TwoHundredDayAverageChange { get; set; }        
