@@ -75,7 +75,7 @@ namespace Data.Repositories
             atual.Name = novoProduto.Name;
             atual.Description = novoProduto.Description;
             atual.Price = novoProduto.Price;
-            atual.Periodicidade = novoProduto.Periodicidade;
+            atual.Periodicity = novoProduto.Periodicity;
             atual.UpdatedAt = DateTime.Now;
 
             await _productRepository.UpdateAsync(atual!);
