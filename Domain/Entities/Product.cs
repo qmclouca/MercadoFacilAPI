@@ -8,16 +8,16 @@ namespace Domain.Entities
 {
     public class Product : BaseEntity
     {
-        public Product(string name, float price, string description, int? periodicidade)
+        public Product(string name, float price, string description, int? periodicity)
         {
             Name = name;
             Price = price;
             Description = description;
-            Periodicidade = periodicidade;
+            Periodicity = periodicity;
         }
         public string Name { get; set; }
         public float Price { get; set; }
         public string Description { get; set; }
-        public int? Periodicidade { get; set; }
+        public int? Periodicity { get; set; }
     }
 }
