@@ -18,5 +18,7 @@ namespace Domain.DTOs.User
         public string? Role { get; set; }
 
         public List<CreateAddressDTO>? Addresses { get; set; }
+
+        public string? ObservedShares { get; set; }
     }
 }

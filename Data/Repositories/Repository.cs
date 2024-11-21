@@ -25,7 +25,7 @@ namespace Data.Repositories
         {
             try
             {
-                var result = await _dbSet.FindAsync(id);
+                var result = await _dbSet.AsNoTracking().FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
                 return result;
             }
             catch (NullReferenceException e)
