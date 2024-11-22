@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MercadoFacilAPI.Controllers
 {
-    //[Authorize]
-    [ApiController]
-    [AllowAnonymous]
+    [Authorize]
+    [ApiController]   
     [Route("[controller]")]
     public class ShareController: ControllerBase
     {

@@ -110,6 +110,7 @@ namespace MercadoFacilAPI.Controllers
             user.Name = createUserDTO.Name;
             user.Password = createUserDTO.Password;
             user.Role = createUserDTO.Role;
+            user.ObservedShares = createUserDTO.ObservedShares;
 
             if (createUserDTO.Addresses != null)
             {
@@ -153,6 +154,7 @@ namespace MercadoFacilAPI.Controllers
             userDto.Email = user.Email;
             userDto.Password = user.Password;
             userDto.Role = user.Role;
+            userDto.ObservedShares = user.ObservedShares;
             List<CreateAddressDTO> lstCreateAddressDTO = new List<CreateAddressDTO>();
             if (user.Addresses.Count > 0)
             {

@@ -64,7 +64,15 @@ namespace Domain.Services
 
         public async Task<User> UpdateUser(User user)
         {
-            await _userRepository.UpdateAsync(user);
+            try
+            {
+
+                await _userRepository.UpdateAsync(user);
+            }
+            catch (Exception e)
+            {
+            }
+          
             return await GetUserById(user.Id);            
         }
 
